@@ -2,11 +2,11 @@
 
 ## Docker Commands
 ### Running containers
-#### Starting 
+#### Starting all containers in docker-compose file. 
 ```
 docker-compose up --build
 ```
-#### After successful run of containers, start the test container
+#### After successful run of containers, start the test container.
 ```
  TEST_ENABLED=true docker-compose up --build test
 ```
