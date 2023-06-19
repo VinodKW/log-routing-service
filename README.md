@@ -24,7 +24,7 @@
 
 -   For asynchronous processing and buffering:
 
-    -   Worker and Cron: Celery and Clery Beat
+    -   Worker and Cron: Celery and Celery Beat
 
 ## 
 
