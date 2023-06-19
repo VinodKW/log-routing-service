@@ -1,5 +1,17 @@
 # Log Routing System
 
+## Docker Commands
+### Running containers
+#### Starting 
+```
+docker-compose up --build
+```
+#### After successful run of containers, start the test container
+```
+ TEST_ENABLED=true docker-compose up --build test
+```
+
+
 # Solution
 
 ## Observations
