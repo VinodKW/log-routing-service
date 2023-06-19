@@ -6,7 +6,7 @@
 ```
 docker-compose up --build
 ```
-#### After successful run of containers, start the test container.
+#### After successful run of containers, for starting the test container.
 ```
  TEST_ENABLED=true docker-compose up --build test
 ```
