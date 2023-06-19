@@ -25,9 +25,9 @@ SECRET_KEY = 'django-insecure-d(&5gf+xke+z43bli6e&_7dt1%ytz@!xv462@c^wnwxchay_9q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'django-server']
 
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672'
+CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq:5672'
 # CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq:5672'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
@@ -93,30 +93,30 @@ WSGI_APPLICATION = 'logservice.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'logdb',
-        'USER': 'vinod',
-        'PASSWORD': 'abcd',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'HOST': 'mysql',
-#         'PORT': '3306',
 #         'NAME': 'logdb',
 #         'USER': 'vinod',
 #         'PASSWORD': 'abcd',
-#         'OPTIONS': {
-#             'unix_socket': '/var/run/mysqld/mysqld.sock',
-#         },
+#         'HOST': 'localhost',
+#         'PORT': '3306',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': 'mysql',
+        'PORT': '3306',
+        'NAME': 'logdb',
+        'USER': 'vinod',
+        'PASSWORD': 'abcd',
+        # 'OPTIONS': {
+        #     'unix_socket': '/var/run/mysqld/mysqld.sock',
+        # },
+    }
+}
 
 
 

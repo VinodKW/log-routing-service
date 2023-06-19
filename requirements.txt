@@ -34,3 +34,4 @@ vine
 wcwidth
 sqlalchemy
 mysql-connector-python
+aiohttp

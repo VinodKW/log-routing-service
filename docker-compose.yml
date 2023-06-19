@@ -67,5 +67,21 @@ services:
     env_file:
       - ./env.list
 
+  test:
+    build:
+      context: .
+    networks:
+      - my-network
+    command: >
+      bash -c "
+        if [ \"${TEST_ENABLED}\" = \"true\" ]; then
+          python3 testing_script.py;
+        else
+          sleep infinity;
+        fi"
+    env_file:
+      - ./env.list 
+
+
 networks:
   my-network:

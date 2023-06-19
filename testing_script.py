@@ -1,7 +1,7 @@
 import asyncio
 import aiohttp
 
-url = 'http://localhost:8000/api/log'
+url = 'http://django-server:8000/api/log'
 headers = {'Content-Type': 'application/json'}
 
 payload = {
@@ -15,14 +15,21 @@ successful_requests = 0
 async def send_request(session, payload):
     global successful_requests
 
-    try:
-        async with session.post(url, headers=headers, json=payload) as response:
-            if response.status == 201:
-                successful_requests += 1
-            else:
-                print("Request failed with status code:", response.status)
-    except (aiohttp.ClientError, aiohttp.ClientConnectionError) as e:
-        print("Request failed due to connection error:", str(e))
+    max_retries = 3
+    retry_count = 0
+
+    while retry_count < max_retries:
+        try:
+            async with session.post(url, headers=headers, json=payload) as response:
+                if response.status == 201:
+                    successful_requests += 1
+                else:
+                    print("Request failed with status code:", response.status)
+            break  # Break out of the retry loop if request is successful
+        except (aiohttp.ClientError, aiohttp.ClientConnectionError) as e:
+            retry_count += 1
+            # Wait for a short delay before retrying
+            await asyncio.sleep(1)
 
 async def send_requests_concurrently():
     async with aiohttp.ClientSession() as session:
@@ -38,7 +45,7 @@ async def send_requests_concurrently():
 
             # Clear the tasks list
             tasks.clear()
-
+            
             # Print the number of successful requests
             print("Total successful requests:", successful_requests)
 
