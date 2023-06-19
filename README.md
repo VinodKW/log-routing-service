@@ -40,7 +40,7 @@
 
 -   Introduce a shard file system.
 
--   Whenever object comes to api, accept it in async way and put it into one of the shard files in round robbin fashion.
+-   Whenever object comes to API, accept it in async way and put it into one of the shard files in round robbin fashion.
 
 #### Batch Insertion
 
@@ -62,14 +62,14 @@
 
             -   Introduce a locking mechanism every time a process
                 operates on a file and open the lock only when the
-                 operation gets completed.
+                operation gets completed.
 
         -   Sharding.
 
             -   This will remove the dependency on a single file and
                 also help in scaling up the system as we can deploy n
                 number of workers to operate on the file parallely
-                after data gets inserted into the files.
+                after data gets insert into the files.
 
 
 
