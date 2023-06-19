@@ -12,17 +12,11 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Create and activate the virtual environment
-RUN python -m venv venv
+RUN python3 -m venv venv
 RUN /bin/bash -c "source venv/bin/activate"
 
 # Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Copy the Django project code into the container
 COPY . .
-
-# Expose the server port (adjust if necessary)
-EXPOSE 8000
-
-# Start the Django development server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

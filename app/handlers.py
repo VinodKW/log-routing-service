@@ -1,6 +1,7 @@
 import abc
 import logging
 from .models import Log
+from .tasks import create_log
 
 class Handler(metaclass=abc.ABCMeta):
     """
@@ -24,11 +25,8 @@ class LoginHandler(Handler):
     def handle_request(self, request):
         if request.data.get('event_name') == 'login':  # if can_handle:
             print("Login event handler started.")
-            log = Log(user_id=request.data.get('user_id'), 
-                      unix_ts=request.data.get('unix_ts'), 
-                      event_name=request.data.get('event_name'))
-            log.save()
-            logging.info("Login event handler completed.")
+            create_log.delay(request.data)
+            print("Login event handler completed.")
 
         elif self._successor is not None:
             self._successor.handle_request(request)
@@ -42,12 +40,8 @@ class LogoutHandler(Handler):
     def handle_request(self, request):
         if request.data.get('event_name') == 'logout':  # if can_handle:
             print("Logout event handler started.")
-
-            log = Log(user_id=request.data.get('user_id'), 
-                      unix_ts=request.data.get('unix_ts'), 
-                      event_name=request.data.get('event_name'))
-            log.save()
-            logging.info("Logout event handler started.")
+            create_log.delay(request.data)
+            print("Logout event handler started.")
 
         elif self._successor is not None:
             self._successor.handle_request(request)

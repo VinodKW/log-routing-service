@@ -27,6 +27,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672'
+# CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq:5672'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'  # Use the DatabaseScheduler provided by django-celery-beat
+
+# Additional Celery Beat settings
+CELERY_BEAT_SCHEDULE = {
+    'process_logs': {
+        'task': 'app.tasks.process_logs_from_queue',
+        'schedule': 3.0,  # Run the task every 30 seconds
+    },
+}
 
 # Application definition
 
@@ -39,6 +54,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'rest_framework',
+    'celery',
+    'django_celery_results',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -86,6 +104,21 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'HOST': 'mysql',
+#         'PORT': '3306',
+#         'NAME': 'logdb',
+#         'USER': 'vinod',
+#         'PASSWORD': 'abcd',
+#         'OPTIONS': {
+#             'unix_socket': '/var/run/mysqld/mysqld.sock',
+#         },
+#     }
+# }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -127,3 +160,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+

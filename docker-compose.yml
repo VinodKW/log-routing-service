@@ -6,3 +6,66 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    depends_on:
+      - mysql
+      - rabbitmq
+      - celery-worker
+      - celery-beat
+    networks:
+      - my-network
+    command: bash -c "chmod +x commands/docker/start_django.sh && ./commands/docker/start_django.sh"
+    env_file:
+      - ./env.list
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=abcd
+    networks:
+      - my-network
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 30s
+      retries: 3
+    env_file:
+      - ./env.list
+
+  celery-worker:
+    build:
+      context: .
+    depends_on:
+      - rabbitmq
+      - mysql
+    networks:
+      - my-network
+    command: bash -c "chmod +x commands/docker/start_celery.sh && ./commands/docker/start_celery.sh"
+    env_file:
+      - ./env.list
+
+  celery-beat:
+    build:
+      context: .
+    depends_on:
+      - rabbitmq
+      - mysql
+    networks:
+      - my-network
+    command: bash -c "chmod +x commands/docker/start_celerybeat.sh && ./commands/docker/start_celerybeat.sh"
+    env_file:
+      - ./env.list
+
+  rabbitmq:
+    image: rabbitmq:latest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - my-network
+    env_file:
+      - ./env.list
+
+networks:
+  my-network:
