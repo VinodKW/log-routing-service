@@ -4,6 +4,7 @@ import os
 from celery import shared_task
 from .modules import process_logs_from_shard, get_next_shard_index, get_shard_filename, NUM_SHARDS
 
+
 @shared_task
 def create_log(data):
     shard_index = get_next_shard_index()

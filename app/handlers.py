@@ -48,14 +48,14 @@ class LogoutHandler(Handler):
 
 
 class DefaultHandler(Handler):
- 
+     
     """Default Handler: child class from AbstractHandler"""
 
     def handle_request(self, request):
         logging.info("No handler found.")
 
 
-def get_event_handler(): 
+def get_event_handler():
     default_handler = DefaultHandler()
     login_handler = LoginHandler(default_handler)
     logout_handler = LogoutHandler(login_handler)

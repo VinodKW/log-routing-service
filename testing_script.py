@@ -12,6 +12,7 @@ payload = {
 
 successful_requests = 0
 
+
 async def send_request(session, payload):
     global successful_requests
 
@@ -31,6 +32,7 @@ async def send_request(session, payload):
             # Wait for a short delay before retrying
             await asyncio.sleep(1)
 
+
 async def send_requests_concurrently():
     async with aiohttp.ClientSession() as session:
         tasks = []
@@ -45,7 +47,7 @@ async def send_requests_concurrently():
 
             # Clear the tasks list
             tasks.clear()
-            
+
             # Print the number of successful requests
             print("Total successful requests:", successful_requests)
 
