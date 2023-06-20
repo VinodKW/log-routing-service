@@ -34,7 +34,7 @@ docker-compose up --build
 
 -   Database: MySql
 
--   For asynchronous processing and buffering:
+-   For asynchronous processing and scheduling:
 
     -   Worker and Cron: Celery and Celery Beat
 
